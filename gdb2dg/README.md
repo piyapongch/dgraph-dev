@@ -2,7 +2,7 @@
 This command converts GraphDB export in n-quads to Dgraph live import data file.
 - Add ```<dgraph.type>``` "IRObject" to all subjects
 - Add ```<dgraph.type>``` for ```<info:fedora/fedora-system:def/model#hasModel>``` predicates
-- Add ```<xid>``` predicates to all subjects, Dgraph will generate uid for all subjects
+- Add ```<xid>``` predicates for all subjects, Dgraph will replace the subjects with generated uids.
 - Convert IRI object to string for these predicates:
   - ```<http://www.loc.gov/premis/rdf/v1#hasMessageDigest>```
   - ```<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>```
