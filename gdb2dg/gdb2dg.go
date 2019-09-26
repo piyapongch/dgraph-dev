@@ -9,6 +9,10 @@ import (
 )
 
 func main() {
+	if len(os.Args) < 3 {
+		log.Fatal("arguments error, [graphdb n-quads export file] [n-quads output file]")
+		os.Exit(1)
+	}
 	file, err := os.Open(os.Args[1])
 	if err != nil {
 		log.Fatal(err)
