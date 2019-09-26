@@ -1,0 +1,184 @@
+# Find by title order by title
+{
+ me(func: allofterms(<http://purl.org/dc/terms/title>, "alberta"), orderasc: <http://purl.org/dc/terms/title>, first: 100) {
+   count(uid)
+   Uid
+  <http://purl.org/dc/terms/title>
+ }
+}
+
+# Find by DOI
+{
+ doi(func: eq(<http://prismstandard.org/namespaces/basic/3.0/doi>, "doi:10.7939/R3SB3WZ1C")) {
+   uid
+   <http://purl.org/dc/terms/title>
+ }
+}
+
+{
+ doi(func: eq(<http://prismstandard.org/namespaces/basic/3.0/doi>, "doi:10.7939/R3SB3WZ1C")) {
+   uid
+   <http://purl.org/dc/terms/title>
+ }
+}
+
+# Group by type
+{
+ me(func: regexp(<http://prismstandard.org/namespaces/basic/3.0/doi>, /doi/)) @groupby(<http://purl.org/dc/terms/type>) {
+   count(uid)
+ }
+}
+
+# Find all DOI group by language
+{
+ me(func: has(<http://prismstandard.org/namespaces/basic/3.0/doi>)) @groupby(<http://purl.org/dc/terms/language>) {
+   count(uid)
+ }
+}
+
+# Group by model
+{
+  mods(func: has(<info:fedora/fedora-system:def/model#hasModel>)) @groupby(<info:fedora/fedora-system:def/model#hasModel>) {
+    count(uid)
+  }
+}
+
+# Find last modified item
+{
+ me(func: eq(<info:fedora/fedora-system:def/model#hasModel>, "IRItem"), orderdesc: <http://fedora.info/definitions/v4/repository#lastModified>, first: 100) {
+   <http://purl.org/dc/terms/title>
+ }
+}
+# List Schema
+schema {}
+
+# Has and expand menberOf edge
+{
+  q(func: has(<http://pcdm.org/models#memberOf>), first: 10) {
+    uid
+    <http://purl.org/dc/terms/title>
+    <http://pcdm.org/models#memberOf> {
+      count(uid)
+      Uid
+      <info:fedora/fedora-system:def/model#hasModel>
+      <http://purl.org/dc/terms/title>
+    }
+  }
+}
+
+# External ID
+{
+  set {
+    _:xid <http://purl.org/dc/terms/title> "Test External ID" .
+    _:xid <xid> "http://localhost.org/xid/001" .
+  }
+}
+
+# Find by XID
+{
+  item(func: eq(<xid>, "http://localhost.org/xid/001"), first: 1, orderasc: <http://purl.org/dc/terms/title>) {
+    uid
+    xid
+  <http://purl.org/dc/terms/title>
+}
+}
+
+# Get item
+{
+  getitem(func: eq(<info:fedora/fedora-system:def/model#hasModel>, "IRItem"), first: 10) {
+    uid
+    xid
+    <http://fedora.info/definitions/v4/repository#created>
+    <http://fedora.info/definitions/v4/repository#createdBy>
+    <http://fedora.info/definitions/v4/repository#hasFixityService>
+    <http://fedora.info/definitions/v4/repository#hasParent>
+    <http://fedora.info/definitions/v4/repository#lastModified>
+    <http://fedora.info/definitions/v4/repository#lastModifiedBy>
+    <http://fedora.info/definitions/v4/repository#writable>
+    <http://ontoware.org/swrc/ontology#institution>
+    <http://pcdm.org/models#hasFile>
+    <http://pcdm.org/models#hasRelatedObject>
+    <http://pcdm.org/models#memberOf> {
+      uid
+      xid
+      <http://purl.org/dc/terms/title>
+      <info:fedora/fedora-system:def/model#hasModel>
+      <http://pcdm.org/models#hasMember> {
+        uid
+        xid
+        <http://purl.org/dc/terms/title>
+      }
+      <http://pcdm.org/models#memberOf> {
+        uid
+        xid
+        <http://purl.org/dc/terms/title>
+        <info:fedora/fedora-system:def/model#hasModel>
+      }
+    }
+    <http://prismstandard.org/namespaces/basic/3.0/doi>
+    <http://projecthydra.org/ns/auth/acl#embargoHistory>
+    <http://projecthydra.org/ns/auth/acl#visibilityAfterEmbargo>
+    <http://purl.org/dc/elements/1.1/contributor>
+    <http://purl.org/dc/elements/1.1/creator>
+    <http://purl.org/dc/elements/1.1/rights>
+    <http://purl.org/dc/elements/1.1/subject>
+    <http://purl.org/dc/terms/abstract>
+    <http://purl.org/dc/terms/accessRights>
+    <http://purl.org/dc/terms/alternative>
+    <http://purl.org/dc/terms/available>
+    <http://purl.org/dc/terms/created>
+    <http://purl.org/dc/terms/creator>
+    <http://purl.org/dc/terms/dateAccepted>
+    <http://purl.org/dc/terms/dateSubmitted>
+    <http://purl.org/dc/terms/description>
+    <http://purl.org/dc/terms/hasPart>
+    <http://purl.org/dc/terms/isVersionOf>
+    <http://purl.org/dc/terms/language>
+    <http://purl.org/dc/terms/license>
+    <http://purl.org/dc/terms/relation>
+    <http://purl.org/dc/terms/source>
+    <http://purl.org/dc/terms/spatial>
+    <http://purl.org/dc/terms/temporal>
+    <http://purl.org/dc/terms/title>
+    <http://purl.org/dc/terms/type>
+    <http://purl.org/ontology/bibo/authorList>
+    <http://purl.org/ontology/bibo/degree>
+    <http://purl.org/ontology/bibo/owner>
+    <http://purl.org/ontology/bibo/status>
+    <http://terms.library.ualberta.ca/commiteeMember>
+    <http://terms.library.ualberta.ca/department>
+    <http://terms.library.ualberta.ca/departmentList>
+    <http://terms.library.ualberta.ca/depositor>
+    <http://terms.library.ualberta.ca/dissertant>
+    <http://terms.library.ualberta.ca/fedora3Handle>
+    <http://terms.library.ualberta.ca/fedora3UUID>
+    <http://terms.library.ualberta.ca/graduationDate>
+    <http://terms.library.ualberta.ca/hydraNoid>
+    <http://terms.library.ualberta.ca/ingestBatch>
+    <http://terms.library.ualberta.ca/path>
+    <http://terms.library.ualberta.ca/proquest>
+    <http://terms.library.ualberta.ca/recordCreatedInJupiter>
+    <http://terms.library.ualberta.ca/restrictedCollection>
+    <http://terms.library.ualberta.ca/sitemapLink>
+    <http://terms.library.ualberta.ca/sortYear>
+    <http://terms.library.ualberta.ca/specialization>
+    <http://terms.library.ualberta.ca/supervisor>
+    <http://terms.library.ualberta.ca/supervisorList>
+    <http://terms.library.ualberta.ca/thesisLevel>
+    <http://terms.library.ualberta.ca/unicorn>
+    <http://www.ebu.ch/metadata/ontologies/ebucore/ebucore#dateIngested>
+    <http://www.ebu.ch/metadata/ontologies/ebucore/ebucore#hasMimeType>
+    <http://www.iana.org/assignments/relation/first>
+    <http://www.iana.org/assignments/relation/last>
+    <http://www.iana.org/assignments/relation/next>
+    <http://www.iana.org/assignments/relation/prev>
+    <http://www.loc.gov/premis/rdf/v1#hasMessageDigest>
+    <http://www.openarchives.org/ore/terms/proxyFor>
+    <http://www.openarchives.org/ore/terms/proxyIn>
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>
+    <http://www.w3.org/ns/ldp#hasMemberRelation>
+    <http://www.w3.org/ns/ldp#insertedContentRelation>
+    <http://www.w3.org/ns/ldp#membershipResource>
+    <info:fedora/fedora-system:def/model#hasModel>
+  }
+}
